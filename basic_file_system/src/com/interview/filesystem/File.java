@@ -52,7 +52,7 @@ public class File {
 	
 	public void appendContent(String str){
 		if(contents != null){
-			contents = contents + " " + str;
+			contents = contents + str;
 		}else{
 			contents = str;
 		}

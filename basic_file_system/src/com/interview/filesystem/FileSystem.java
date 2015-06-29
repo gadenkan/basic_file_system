@@ -23,35 +23,17 @@ public class FileSystem {
 				
 				System.out.println(line);
 				if(line.indexOf("create ") == 0){
-					boolean result = createFile(line.substring(7));
-					if(!result){
-						System.out.println("Error creating file. Command "+line);
-					}
+					createFile(line.substring(7));
 				}else if(line.indexOf("mkdir ") == 0){
-					boolean result = createDirectory(line.substring(6));
-					if(!result){
-						System.out.println("Error creating directory. Command "+line);
-					}
+					createDirectory(line.substring(6));
 				}else if(line.indexOf("append ") == 0){
-					boolean result = appendToFile(line.substring(7));
-					if(!result){
-						System.out.println("Error appending string to file. Command "+line);
-					}
+					appendToFile(line.substring(7));
 				}else if(line.indexOf("cp ") == 0){
-					boolean result = copyFile(line.substring(3));
-					if(!result){
-						System.out.println("Error copying file. Command "+line);
-					}
+					copyFile(line.substring(3));
 				}else if(line.indexOf("rm ") == 0){
-					boolean result = removeFile(line.substring(3));
-					if(!result){
-						System.out.println("Error removing file. Command "+line);
-					}
+					removeFile(line.substring(3));
 				}else if(line.indexOf("cat ") == 0){
-					boolean result = concatenate(line.substring(4));
-					if(!result){
-						System.out.println("Error reading file. Command "+line);
-					}
+					concatenate(line.substring(4));
 				}
 				
 				line = reader.readLine();
@@ -88,7 +70,7 @@ public class FileSystem {
 		}
 	}
 
-	private static boolean concatenate(String command) {
+	private static void concatenate(String command) {
 
 		String[] strArr = command.split("/");
 			
@@ -101,14 +83,12 @@ public class FileSystem {
 			
 			File f = d.getFile(strArr[strArr.length-1]);
 			System.out.println(f.getContents());
-			return true;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
-			return false;
 		}
 	}
 
-	private static boolean removeFile(String command) {
+	private static void removeFile(String command) {
 
 		String[] strArr = command.split("/");
 			
@@ -121,14 +101,12 @@ public class FileSystem {
 			
 			d.removeFile(strArr[strArr.length-1]);
 			//System.out.println("Removed file "+strArr[strArr.length-1]+" to directory "+d.getName());
-			return true;
 		}catch(Exception e){
-			System.out.println("Error "+e.getMessage());
-			return false;
+			System.out.println(e.getMessage());
 		}
 	}
 
-	private static boolean copyFile(String command) {
+	private static void copyFile(String command) {
 
 		
 		String[] strArr0 = command.split(" ");
@@ -151,16 +129,15 @@ public class FileSystem {
 			d2.addFile(f2);
 			f2.setDirectory(d2);
 			//System.out.println("Copied of file "+f.getName()+ " to "+f2.getName());
-			return true;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
-			return false;
 		}
 	}
 
-	private static boolean appendToFile(String command) {
+	private static void appendToFile(String command) {
 
 		
+		// Do not split by " ". Strip the command with start and end "
 		String[] strArr0 = command.split(" ");
 		String[] strArr1 = strArr0[1].split("/");
 			
@@ -172,17 +149,14 @@ public class FileSystem {
 			Directory d = findDirectory(strArr1);
 			
 			File f = d.getFile(strArr1[strArr1.length-1]);
-			
 			f.appendContent(strArr0[0]);
 			//System.out.println("Contents of file "+f.getName()+ " : "+f.getContents());
-			return true;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
-			return false;
 		}
 	}
 
-	public static boolean createFile(String command){
+	public static void createFile(String command){
 		String[] strArr = command.split("/");
 			
 		// find directory
@@ -195,28 +169,21 @@ public class FileSystem {
 			File f = new File(strArr[strArr.length-1]);
 			d.addFile(f);
 			//System.out.println("Added file "+f.getName()+" to directory "+d.getName());
-			return true;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
-			return false;
 		}
 	}
 	
-	private static Directory findDirectory(String[] strArr) {
+	private static Directory findDirectory(String[] strArr) throws Exception {
 		
 		Directory currDir = currentDirectory;
 		for(int i=1; i<strArr.length-1;i++){
-			try{
-				currDir = currDir.getChildDirectory(strArr[i]);
-			}catch(Exception e){
-				System.out.println(e.getMessage());
-				throw e;
-			}
+			currDir = currDir.getChildDirectory(strArr[i]);
 		}
 		return currDir;
 	}
 
-	public static boolean createDirectory(String command){
+	public static void createDirectory(String command){
 		String[] strArr = command.split("/");
 			
 		// find directory
@@ -229,10 +196,8 @@ public class FileSystem {
 			Directory newDir = new Directory(strArr[strArr.length-1], d);
 			d.addChildDirectory(newDir);
 			//System.out.println("Added new directory "+newDir.getName()+" to directory "+d.getName());
-			return true;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
-			return false;
 		}
 	}
 

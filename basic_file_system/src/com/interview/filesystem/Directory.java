@@ -46,10 +46,10 @@ public class Directory {
 		this.files = files;
 	}
 
-	public void addChildDirectory(Directory child){
+	public void addChildDirectory(Directory child) throws Exception{
 		// add a child directory
 		if(children.containsKey(child.getName())){
-			throw new Error("Directory "+child.getName()+" already exists");
+			throw new Exception("Directory "+child.getName()+" already exists");
 		}else{
 			child.setParent(this);
 			children.put(child.getName(), child);
@@ -57,36 +57,36 @@ public class Directory {
 
 	}
 	
-	public Directory getChildDirectory(String name){
+	public Directory getChildDirectory(String name) throws Exception{
 		
 		if(children.containsKey(name)){
 			return children.get(name);
 		}else{
-			throw new Error("Does not contain directory "+name);
+			throw new Exception("Error: Directory does not exist: /"+name);
 		}
 	}
 	
-	public void addFile(File file){
+	public void addFile(File file) throws Exception{
 		if(files.containsKey(file.getName())){
-			throw new Error("File "+file.getName()+" already exists");
+			throw new Exception("File "+file.getName()+" already exists");
 		}else{
 			files.put(file.getName(), file);
 		}
 	}
 	
-	public File getFile(String name){
+	public File getFile(String name) throws Exception{
 		if(files.containsKey(name)){
 			return files.get(name);
 		}else{
-			throw new Error("File does not exist");
+			throw new Exception("Error: File does not exist: /"+name);
 		}
 	}
 	
-	public void removeFile(String name){
+	public void removeFile(String name) throws Exception{
 		if(files.containsKey(name)){
 			files.remove(name);
 		}else{
-			throw new Error("File does not exist");
+			throw new Exception("Error: File does not exist: /"+name);
 		}
 	}
 }
