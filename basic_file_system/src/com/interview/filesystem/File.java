@@ -3,7 +3,7 @@ package com.interview.filesystem;
 public class File {
 
 	private String name;
-	private String contents = null;
+	private String contents;
 	private Directory directory;
 	private int updates;
 
@@ -33,6 +33,9 @@ public class File {
 		this.name = name;
 	}
 	public String getContents() {
+		if(contents == null){
+			contents = "";
+		}
 		return contents;
 	}
 	public void setContents(String contents) {
@@ -49,7 +52,7 @@ public class File {
 	
 	public void appendContent(String str){
 		if(contents != null){
-			contents = contents + "\n" + str;
+			contents = contents + " " + str;
 		}else{
 			contents = str;
 		}

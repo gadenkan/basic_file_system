@@ -81,4 +81,12 @@ public class Directory {
 			throw new Error("File does not exist");
 		}
 	}
+	
+	public void removeFile(String name){
+		if(files.containsKey(name)){
+			files.remove(name);
+		}else{
+			throw new Error("File does not exist");
+		}
+	}
 }

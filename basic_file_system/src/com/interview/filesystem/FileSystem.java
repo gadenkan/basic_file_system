@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Currency;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class FileSystem {
 	
@@ -64,22 +67,79 @@ public class FileSystem {
 				
 				line = reader.readLine();
 			}
+			
+			displayDirectoryContents();
 		}finally {
 			reader.close();
 		}
 		
 	}
 	
+	private static void displayDirectoryContents() {
+
+		printFilesInDirectory(currentDirectory);
+		
+		Map<String, Directory> directories = currentDirectory.getChildren();
+		Iterator it = directories.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String, Directory> directory = (Map.Entry<String, Directory>) it.next();
+			System.out.println("/"+ directory.getKey());
+			printFilesInDirectory(directory.getValue());
+		}
+		
+	}
+	
+	private static void printFilesInDirectory(Directory d){
+		Map<String, File> files = d.getFiles();
+		Iterator it = files.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String, File> file = (Map.Entry<String, File>) it.next();
+			System.out.println("/"+ file.getKey() + " (" + file.getValue().getUpdates()+") " + file.getValue().getContents() );
+		}
+	}
+
 	private static boolean concatenate(String command) {
 
 		System.out.println(command);
-		return false;
+		String[] strArr = command.split("/");
+		System.out.println(strArr.length);
+			
+		// find directory
+		// when the correct directory is reached
+		// add file to the correct directory
+		// break after adding
+		try{
+			Directory d = findDirectory(strArr);
+			
+			File f = d.getFile(strArr[strArr.length-1]);
+			System.out.println(f.getContents());
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	private static boolean removeFile(String command) {
 
 		System.out.println(command);
-		return false;
+		String[] strArr = command.split("/");
+		System.out.println(strArr.length);
+			
+		// find directory
+		// when the correct directory is reached
+		// add file to the correct directory
+		// break after adding
+		try{
+			Directory d = findDirectory(strArr);
+			
+			d.removeFile(strArr[strArr.length-1]);
+			System.out.println("Removed file "+strArr[strArr.length-1]+" to directory "+d.getName());
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	private static boolean copyFile(String command) {
