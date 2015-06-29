@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class FileSystem {
+	
+	private Directory currentDirectory;
 
 	public static void main(String[] args) throws IOException {
 

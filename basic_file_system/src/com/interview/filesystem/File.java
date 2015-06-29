@@ -4,7 +4,7 @@ public class File {
 
 	private String name;
 	private String contents;
-	private String path;
+	private Directory directory;
 	private int updates;
 
 	public File(String name){
@@ -31,10 +31,14 @@ public class File {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
-	public String getPath() {
-		return path;
+
+	public Directory getDirectory() {
+		return directory;
 	}
-	public void setPath(String path) {
-		this.path = path;
+
+	public void setDirectory(Directory directory) {
+		this.directory = directory;
 	}
+
+	
 }
