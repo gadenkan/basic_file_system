@@ -1,14 +1,14 @@
 package com.interview.filesystem;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 public class Directory {
 
 	private String name;
 	private Directory parent;
-	private HashMap<String, Directory> children;
-	private HashMap<String, File> files;
+	private HashMap<String, Directory> children = new LinkedHashMap<String, Directory>();
+	private HashMap<String, File> files = new LinkedHashMap<String, File>();
 	
 	public Directory(String name, Directory parent){
 		this.name = name;
@@ -46,18 +46,22 @@ public class Directory {
 		this.files = files;
 	}
 
-	public void setChild(Directory child){
+	public void addChildDirectory(Directory child){
 		// add a child directory
 		child.setParent(this);
 		children.put(child.getName(), child);
 	}
 	
-	public Directory getChildDirectory(Directory name){
+	public Directory getChildDirectory(String name){
 		
 		if(children.containsKey(name)){
 			return children.get(name);
 		}else{
 			throw new Error("Does not contain directory "+name);
 		}
+	}
+	
+	public void addFile(File file){
+		files.put(file.getName(), file);
 	}
 }

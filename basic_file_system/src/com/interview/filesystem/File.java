@@ -9,6 +9,13 @@ public class File {
 
 	public File(String name){
 		this.name = name;
+		this.updates = 0;
+	}
+	
+	public File(File otherFile){
+		this.name = otherFile.getName();
+		this.updates = 0;
+		this.contents = otherFile.getContents();
 	}
 	
 	public int getUpdates() {
@@ -38,6 +45,11 @@ public class File {
 
 	public void setDirectory(Directory directory) {
 		this.directory = directory;
+	}
+	
+	public void appendContent(String str){
+		contents = contents + "\n" + str;
+		this.updates++;
 	}
 
 	
