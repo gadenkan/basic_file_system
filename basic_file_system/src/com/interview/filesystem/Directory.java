@@ -48,8 +48,13 @@ public class Directory {
 
 	public void addChildDirectory(Directory child){
 		// add a child directory
-		child.setParent(this);
-		children.put(child.getName(), child);
+		if(children.containsKey(child.getName())){
+			throw new Error("Directory "+child.getName()+" already exists");
+		}else{
+			child.setParent(this);
+			children.put(child.getName(), child);
+		}
+
 	}
 	
 	public Directory getChildDirectory(String name){
@@ -62,6 +67,18 @@ public class Directory {
 	}
 	
 	public void addFile(File file){
-		files.put(file.getName(), file);
+		if(files.containsKey(file.getName())){
+			throw new Error("File "+file.getName()+" already exists");
+		}else{
+			files.put(file.getName(), file);
+		}
+	}
+	
+	public File getFile(String name){
+		if(files.containsKey(name)){
+			return files.get(name);
+		}else{
+			throw new Error("File does not exist");
+		}
 	}
 }

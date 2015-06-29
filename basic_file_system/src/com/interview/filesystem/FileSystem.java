@@ -19,42 +19,42 @@ public class FileSystem {
 			while(line != null){
 				
 				if(line.indexOf("create ") == 0){
-					boolean result = createFile(line.substring(6));
+					boolean result = createFile(line.substring(7));
 					if(result){
 						System.out.println(line);
 					}else{
 						System.out.println("Error creating file. Command "+line);
 					}
 				}else if(line.indexOf("mkdir ") == 0){
-					boolean result = createDirectory(line.substring(5));
+					boolean result = createDirectory(line.substring(6));
 					if(result){
 						System.out.println(line);
 					}else{
 						System.out.println("Error creating directory. Command "+line);
 					}
 				}else if(line.indexOf("append ") == 0){
-					boolean result = appendToFile(line.substring(6));
+					boolean result = appendToFile(line.substring(7));
 					if(result){
 						System.out.println(line);
 					}else{
 						System.out.println("Error appending string to file. Command "+line);
 					}
 				}else if(line.indexOf("cp ") == 0){
-					boolean result = copyFile(line.substring(2));
+					boolean result = copyFile(line.substring(3));
 					if(result){
 						System.out.println(line);
 					}else{
 						System.out.println("Error copying file. Command "+line);
 					}
 				}else if(line.indexOf("rm ") == 0){
-					boolean result = removeFile(line.substring(2));
+					boolean result = removeFile(line.substring(3));
 					if(result){
 						System.out.println(line);
 					}else{
 						System.out.println("Error removing file. Command "+line);
 					}
 				}else if(line.indexOf("cat ") == 0){
-					boolean result = concatenate(line.substring(3));
+					boolean result = concatenate(line.substring(4));
 					if(result){
 						System.out.println(line);
 					}else{
@@ -85,7 +85,33 @@ public class FileSystem {
 	private static boolean copyFile(String command) {
 
 		System.out.println(command);
-		return false;
+		
+		String[] strArr0 = command.split(" ");
+		System.out.println("strArr0 1: "+strArr0[1]);
+		
+		String[] strArr1 = strArr0[0].split("/");
+		String[] strArr2 = strArr0[1].split("/");
+			
+		// find directory
+		// when the correct directory is reached
+		// add file to the correct directory
+		// break after adding
+		try{
+			Directory d = findDirectory(strArr1);
+			
+			File f = d.getFile(strArr1[strArr1.length-1]);
+			
+			
+			Directory d2 = findDirectory(strArr2);
+			File f2 = new File(f);
+			d2.addFile(f2);
+			f2.setDirectory(d2);
+			System.out.println("Copied of file "+f.getName()+ " to "+f2.getName());
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	private static boolean appendToFile(String command) {
@@ -93,6 +119,7 @@ public class FileSystem {
 		System.out.println(command);
 		
 		String[] strArr0 = command.split(" ");
+		System.out.println("strArr0 1: "+strArr0[1]);
 		String[] strArr1 = strArr0[1].split("/");
 		System.out.println(strArr0.length);
 			
@@ -103,11 +130,10 @@ public class FileSystem {
 		try{
 			Directory d = findDirectory(strArr1);
 			
-			File f = new File(strArr1[strArr1.length-1]);
-			d.addFile(f);
-			System.out.println("Added file "+f.getName()+" to directory "+d.getName());
+			File f = d.getFile(strArr1[strArr1.length-1]);
 			
-			System.out.println("Adding content to file "+f.getName());
+			f.appendContent(strArr0[0]);
+			System.out.println("Contents of file "+f.getName()+ " : "+f.getContents());
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
