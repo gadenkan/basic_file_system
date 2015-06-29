@@ -4,3 +4,5 @@ create /sports/article1.txt
 append "GiantsWinTheWorldSeries!" /sports/article1.txt
 cp /sports/article1.txt /sports/article2.txt
 append "_HolyCrap!" /sports/article2.txt
+cat /sports/article1.txt
+rm /sports/articel1.txt
