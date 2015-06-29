@@ -103,7 +103,7 @@ public class FileSystem {
 			
 			
 			Directory d2 = findDirectory(strArr2);
-			File f2 = new File(f);
+			File f2 = new File(strArr2[strArr2.length-1], f);
 			d2.addFile(f2);
 			f2.setDirectory(d2);
 			System.out.println("Copied of file "+f.getName()+ " to "+f2.getName());

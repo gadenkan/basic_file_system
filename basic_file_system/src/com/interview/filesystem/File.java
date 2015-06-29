@@ -12,8 +12,8 @@ public class File {
 		this.updates = 0;
 	}
 	
-	public File(File otherFile){
-		this.name = otherFile.getName();
+	public File(String name, File otherFile){
+		this.name = name;
 		this.updates = 0;
 		this.contents = otherFile.getContents();
 	}
